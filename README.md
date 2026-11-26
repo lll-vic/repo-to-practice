@@ -33,7 +33,3 @@ python3 -m http.server 8765 --bind 127.0.0.1
 - **规则生成。** 按目标关键词选择练习类型，对 README 段落和路径排序，再生成练习和验收标准。目前提供视频生成评测、AI 评测、产品拆解、测试与调试、架构理解、性能分析等练习。未覆盖的技能会采用通用带教流程，并结合填写的目标和卡片引用的材料。追问结合填写的目标和成果。首版不调用大模型。
 - **本地记录。** 成果和语言偏好保存在当前浏览器。清除站点数据会删除记录，可以把重要成果导出为 Markdown。
 - **实时读取有配额。** [GitHub REST API](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api#primary-rate-limit-for-unauthenticated-users) 对匿名请求有限额，搜索还有更严格的限额。界面在搜索失败时仍提供 GitHub 网页搜索入口。离线示例和手动粘贴不需要访问 API。
-
-## 灵感
-
-灵感来自小红书博主分享的《Learn from GitHub》。实战簿从求职能力练习出发独立实现，可以根据岗位要求找项目，再把做过的练习保存为可回顾的成果。
