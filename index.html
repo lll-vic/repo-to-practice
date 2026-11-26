@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="从 GitHub 项目或想练的能力出发，找到一次有依据的实战。">
+  <meta name="theme-color" content="#f6f5ef">
+  <title>实战簿 · 从 GitHub 到实战</title>
+  <link rel="icon" href="./favicon.png" type="image/png">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#workbench" data-aria="home">
+        <span class="brand-icon" aria-hidden="true"><i></i></span>
+        <span><span data-copy="brand">实战簿</span><small id="brand-subtitle">REPO TO PRACTICE</small></span>
+      </a>
+      <div class="top-actions">
+        <nav data-aria="navigation">
+          <a href="#workbench" id="workbench-nav" aria-current="page" data-copy="workbench">实战工作台</a>
+          <a href="#records" id="records-nav"><span data-copy="records">我的记录</span> <span class="count" id="record-count">0</span></a>
+        </nav>
+        <div class="language-picker" role="group" data-aria="language">
+          <button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button>
+          <button type="button" data-language="en" lang="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="workbench" data-aria="workbench">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span><b data-copy="eyebrow">从 GitHub 到实战</b></p>
+          <h1><span data-copy="heroStart">从 Repository</span><br><span data-copy="heroLead">到一次</span><em data-copy="heroEmphasis">实战。</em></h1>
+          <p data-copy="heroDescription">带上你看中的项目，或只输入想练的能力。找到一个起点，动手做一遍。</p>
+        </div>
+        <div class="hero-map" data-aria="flow">
+          <span class="hero-route" aria-hidden="true"></span>
+          <div><span class="map-icon" aria-hidden="true">⌘</span><span><b data-copy="findSources">找资料</b><small data-copy="findSourcesDetail">从项目或能力出发</small></span></div>
+          <div><span class="map-icon" aria-hidden="true">✦</span><span><b data-copy="practice">做练习</b><small data-copy="practiceDetail">按验收标准动手</small></span></div>
+          <div><span class="map-icon" aria-hidden="true">✓</span><span><b data-copy="saveEvidence">留证据</b><small data-copy="saveEvidenceDetail">保存成果，准备追问</small></span></div>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <section class="panel setup" aria-labelledby="setup-title">
+          <div class="panel-heading">
+            <div><h2 id="setup-title" data-copy="setup">开始实战</h2><p data-copy="setupSubtitle">有目标就能开始，项目链接可以稍后再选。</p></div>
+          </div>
+          <form id="practice-form">
+            <div class="field">
+              <label for="repo">GitHub Repository <span class="optional" data-copy="optional">选填</span></label>
+              <input id="repo" name="repo" placeholder="https://github.com/owner/repo" maxlength="250" spellcheck="false" autocapitalize="none" aria-describedby="repo-hint">
+              <p class="hint" id="repo-hint" data-copy="repoHint">Repository 简称 repo。有看中的项目就贴首页链接，也可以留空按能力找项目。</p>
+            </div>
+            <div class="field">
+              <label for="goal" data-copy="goal">想练的能力</label>
+              <textarea id="goal" name="goal" data-placeholder="goalPlaceholder" rows="3" maxlength="2000" required aria-describedby="search-hint"></textarea>
+              <p class="hint" id="search-hint" data-copy="searchHint">只向 GitHub 发送提取的搜索关键词。</p>
+              <div class="chips" id="goal-chips" data-aria="goalExamples">
+                <button type="button" data-example="videoGoal" data-copy="videoChip">视频生成评测</button>
+                <button type="button" data-example="aiGoal" data-copy="aiChip">AI 评测</button>
+                <button type="button" data-example="productGoal" data-copy="productChip">产品拆解</button>
+                <button type="button" data-example="testingGoal" data-copy="testingChip">测试与调试</button>
+                <button type="button" data-example="architectureGoal" data-copy="architectureChip">架构理解</button>
+                <button type="button" data-example="performanceGoal" data-copy="performanceChip">性能分析</button>
+              </div>
+            </div>
+            <details class="manual" id="manual-option" hidden>
+              <summary data-copy="manual">手动提供 README</summary>
+              <div class="field">
+                <label for="manual-readme" data-copy="manualLabel">README 内容</label>
+                <textarea id="manual-readme" name="readme" rows="4" maxlength="40000" data-placeholder="manualPlaceholder"></textarea>
+                <p class="hint" data-copy="manualHint">填写后按你提供的文本生成，并标记来源为手动粘贴。</p>
+              </div>
+            </details>
+            <button class="primary generate" id="generate" type="submit"><span aria-hidden="true">✦</span><span id="generate-label" data-copy="findRepos">寻找相关项目</span></button>
+            <button class="text-button search-instead" id="search-instead" type="button" data-copy="findRepos" hidden>寻找相关项目</button>
+            <div class="demo-row"><span data-copy="tryPrompt">想先看看效果？</span> <button class="text-button" id="demo" type="button" data-copy="tryDemo">试用离线示例</button></div>
+            <p id="generation-message" class="form-message" role="status" hidden></p>
+          </form>
+        </section>
+
+        <section class="panel project-dashboard" id="project-dashboard" aria-labelledby="dashboard-title">
+          <div class="panel-heading dashboard-heading">
+            <div><h2 id="dashboard-title" data-copy="dashboardTitle">项目看板</h2><p data-copy="dashboardIntro">看社区在关注什么，也找与你目标相关的练习。</p></div>
+          </div>
+          <section class="dashboard-module dashboard-hot" aria-labelledby="hot-title">
+            <div class="dashboard-section-heading">
+              <h3 id="hot-title" data-copy="hotTitle">GitHub 热门</h3>
+              <button class="dashboard-control" id="hot-refresh" type="button" data-copy="dashboardRefresh">刷新</button>
+            </div>
+            <div class="dashboard-switch" role="group" data-aria="hotRange">
+              <button type="button" data-range="recent" data-copy="hotRecent" aria-pressed="true">近 30 天新项目</button>
+              <button type="button" data-range="all" data-copy="hotAll" aria-pressed="false">累计热门</button>
+            </div>
+            <p class="hint" data-copy="hotMethod">按累计 Stars 排序。</p>
+            <p class="dashboard-status" id="hot-status" role="status"></p>
+            <ol class="dashboard-list" id="hot-results"></ol>
+            <a class="dashboard-link" href="https://github.com/trending" target="_blank" rel="noopener noreferrer" data-copy="hotTrending">查看 GitHub Trending ↗</a>
+          </section>
+          <section class="dashboard-module dashboard-fit" aria-labelledby="fit-title">
+            <div class="dashboard-section-heading"><h3 id="fit-title" data-copy="fitTitle">适合你练</h3></div>
+            <p class="hint" id="fit-basis"></p>
+            <div class="dashboard-fit-actions">
+              <button class="dashboard-control" id="fit-current" type="button" data-copy="fitCurrent">按当前目标推荐</button>
+              <div class="chips" id="fit-examples" data-aria="goalExamples">
+                <button type="button" data-fit="videoGoal" data-copy="videoChip">视频生成评测</button>
+                <button type="button" data-fit="aiGoal" data-copy="aiChip">AI 评测</button>
+                <button type="button" data-fit="productGoal" data-copy="productChip">产品拆解</button>
+              </div>
+            </div>
+            <p class="dashboard-status" id="fit-status" role="status"></p>
+            <ul class="dashboard-list" id="fit-results"></ul>
+          </section>
+        </section>
+
+        <section class="panel output" id="output" aria-labelledby="output-title" aria-busy="false">
+          <div class="panel-heading">
+            <div><h2 id="output-title" tabindex="-1" data-copy="emptyTitle">项目推荐与实战卡</h2><p id="output-subtitle" data-copy="emptySubtitle">发现相关项目，或直接从你选好的项目开始。</p></div>
+          </div>
+          <div id="output-body">
+            <div class="empty-state" id="output-empty">
+              <div class="paper-graphic" aria-hidden="true"><span>✦</span><i></i><i></i><i></i></div>
+              <strong data-copy="emptyState">从一个能力目标开始</strong>
+              <p data-copy="emptyHelp">填入目标后，我们会在这里显示相关项目或实战卡。</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="records" aria-labelledby="records-title" hidden>
+      <div class="records-intro">
+        <p class="eyebrow"><span></span><b data-copy="archive">练习档案</b></p>
+        <h1 id="records-title" data-copy="recordsTitle">我的实战记录</h1>
+        <p data-copy="recordsDescription">回看你做过的练习、结果和面试追问。</p>
+      </div>
+      <p class="form-message" id="records-message" role="status" hidden></p>
+      <div id="records-list"></div>
+    </section>
+    <footer><span data-copy="brand">实战簿</span><span id="storage-note" data-copy="storageNote">实战记录保存在当前浏览器，可以导出为 Markdown。</span></footer>
+  </main>
+  <dialog id="training-dialog" aria-labelledby="training-title">
+    <div class="training-header">
+      <div>
+        <p class="eyebrow"><span></span><b data-copy="guideLabel">带教训练</b></p>
+        <h2 id="training-title"></h2>
+      </div>
+      <button id="close-training" class="secondary" type="button" data-copy="guideClose">返回实战卡</button>
+    </div>
+    <div id="training-content"></div>
+  </dialog>
+</body>
+</html>
